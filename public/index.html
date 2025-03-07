@@ -1,24 +1,63 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>repl.it</title>
-    <link href="style.css" rel="stylesheet" type="text/css" />
-  </head>
-  <body>
-    <h1>My Page</h1>
 
-    <input type="button" id="alertBtn" value="alert" onclick="alertFun()"/>
-    <input type="button" value="confirm" onclick="confirmFun()"/>
-    <input type="button" value="prompt" onclick="promptFun()"/>
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <title>Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
 
-    <span id="result"></span>
+<body>
+    <nav>
+        <div class="nav-wrapper teal" style="padding-left: 10px;">
+            <a href="#!" class="brand-logo">Ajax Demo</a>
+        </div>
+    </nav>
+
+    <main class="row" style="padding: 40px">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Website</th>
+                </tr>
+            </thead>
+            <tbody id="result">
+            </tbody>
+        </table>
+    </main>
 
     <script>
+      function drawTable(records){
+    let result = document.querySelector('#result');
+    
+    let html = '';
+    for(let record of records){
+        
+        html += `<tr>
+          <td>${record.id}</td>
+          <td>${record.name}</td>
+          <td>${record.brewery_type}</td>
+          <td>${record.website_url}</td>    
+        </tr>`;
+    }
+    result.innerHTML = html;
+}
 
-
+async function getData(url){
+   try{
+     let response = await fetch(url);
+     let result = await response.json();
+     drawTable(result);
+  }catch(e){
+      console.log(e);
+  }
+}
+getData("https://api.openbrewerydb.org/breweries/search?query=harry");
     </script>
-    <script src="script.js"></script>
-  </body>
+</body>
+
 </html>
